@@ -4,7 +4,7 @@ import { SectionWebinars } from './components/SectionWebinars'
 
 export const HomeView = () => {
   return (
-    <div className="max-w-7xl mx-auto space-y-3">
+    <div className="animate-fadeIn max-w-7xl mx-auto space-y-3">
       <SectionCourses />
       <SectionTallers />
       <SectionWebinars />

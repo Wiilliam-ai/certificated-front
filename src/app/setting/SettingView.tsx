@@ -1,3 +1,3 @@
 export const SettingView = () => {
-  return <div>SettingView</div>
+  return <div className="animate-fadeIn">SettingView</div>
 }

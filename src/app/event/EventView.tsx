@@ -2,7 +2,7 @@ import { PlusIcon } from 'lucide-react'
 
 export const EventView = () => {
   return (
-    <div className="max-w-7xl mx-auto space-y-3">
+    <div className="animate-fadeIn max-w-7xl mx-auto space-y-3">
       <section>
         <h1 className="title-section">Eventos</h1>
       </section>

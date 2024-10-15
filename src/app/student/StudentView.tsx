@@ -1,3 +1,3 @@
 export const StudentView = () => {
-  return <div>StudentView</div>
+  return <div className="animate-fadeIn">StudentView</div>
 }
