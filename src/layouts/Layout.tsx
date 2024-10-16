@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import { Link } from 'wouter'
 import { usePathname } from 'wouter/use-browser-location'
+import { ModalComponent } from '../components/custom/modal/ModalComponent'
 
 const navItems = [
   { name: 'Module', path: '/module', Icon: BoxesIcon },
@@ -44,6 +45,7 @@ export const Layout = ({ children }: Props) => {
       </nav>
 
       <main className="p-4">{children}</main>
+      <ModalComponent />
     </div>
   )
 }

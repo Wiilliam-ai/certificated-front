@@ -1,5 +1,6 @@
 import { Button } from '../../components/ui/Button'
 import { useModal } from '../../components/custom/modal/hooks/useModal'
+import { FormModule } from './components/FormModule'
 
 export const ModuleView = () => {
   const { openModal } = useModal()
@@ -7,37 +8,8 @@ export const ModuleView = () => {
   const handleModal = () => {
     openModal({
       title: 'Agregar Modulo',
-      component: (
-        <div>
-          <input
-            type="text"
-            placeholder="Nombre del modulo"
-            className="input"
-          />
-          <input
-            type="text"
-            placeholder="Descripcion del modulo (opcional)"
-            className="input"
-          />
-
-          <div className="mt-3 flex justify-end">
-            <Button
-              variant="destroy"
-              label="Cancelar"
-              onClick={() =>
-                openModal({ title: 'acept', component: <div>acept</div> })
-              }
-            />
-            <Button
-              variant="primay"
-              label="Guardar"
-              onClick={() =>
-                openModal({ title: '', component: <div>Guardar</div> })
-              }
-            />
-          </div>
-        </div>
-      ),
+      widthDimension: 30,
+      component: <FormModule />,
     })
   }
 
