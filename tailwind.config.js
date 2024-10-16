@@ -3,8 +3,6 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {},
-    // animations:
-
     keyframes: {
       fadeIn: {
         '0%': { opacity: 0 },
