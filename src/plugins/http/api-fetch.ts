@@ -9,27 +9,34 @@ class CustomError extends Error {
 
 export class ApiFetch implements HttpAdapter {
   private static API_URL = 'http://localhost:3000'
+  private maxToastError = 2
+  private countToastError = 0
 
   async get<T>(url: string): Promise<T> {
+    let resultData: T
     try {
       const response = await fetch(`${ApiFetch.API_URL}${url}`)
       const result: T = await response.json()
-
       if (!response.ok) {
         throw new CustomError('Error custom')
       }
-
-      return result
+      resultData = result
+      this.countToastError = 0
     } catch (error) {
       if (error instanceof CustomError) {
         console.log('Error custom')
         throw error
       }
+      // toast.error('Error en la petición')
 
-      toast.error('Error en la petición')
+      if (this.countToastError < this.maxToastError) {
+        toast.error('Error en la petición')
+        this.countToastError++
+      }
 
-      return [] as unknown as T
+      throw new Error('Error en la petición')
     }
+    return resultData
   }
 
   async post<T>(url: string, body: Record<string, unknown>): Promise<T> {
