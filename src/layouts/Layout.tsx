@@ -8,6 +8,7 @@ import {
 import { Link } from 'wouter'
 import { usePathname } from 'wouter/use-browser-location'
 import { ModalComponent } from '../components/custom/modal/ModalComponent'
+import { ModalProvider } from '../components/custom/modal/provider/ModalProvider'
 
 const navItems = [
   { name: 'Module', path: '/module', Icon: BoxesIcon },
@@ -24,7 +25,7 @@ interface Props {
 export const Layout = ({ children }: Props) => {
   const pathname = usePathname()
   return (
-    <div>
+    <ModalProvider>
       <nav className="shadow-md h-20 bg-white sticky top-0 left-0">
         <ul className="flex justify-center gap-4 h-full items-center">
           {navItems.map(({ name, path, Icon }) => (
@@ -46,6 +47,6 @@ export const Layout = ({ children }: Props) => {
 
       <main className="p-4">{children}</main>
       <ModalComponent />
-    </div>
+    </ModalProvider>
   )
 }

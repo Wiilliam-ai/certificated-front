@@ -1,8 +1,17 @@
 import { useModal } from '../../components/custom/modal/hooks/useModal'
 import { Button } from '../../components/ui/Button'
+import { FormEvent } from './components/FormEvent'
 
 export const EventView = () => {
   const { openModal } = useModal()
+
+  const handleCreateEvent = () => {
+    openModal({
+      title: 'Agregar Evento',
+      widthDimension: 50,
+      component: <FormEvent />,
+    })
+  }
 
   return (
     <div className="animate-fadeIn max-w-7xl mx-auto space-y-3">
@@ -14,17 +23,7 @@ export const EventView = () => {
         variant="primay"
         label="Agregar Evento"
         icon="plus"
-        onClick={() => {
-          openModal({
-            title: 'Agregar Evento',
-            widthDimension: 50,
-            component: (
-              <div>
-                <p>Hola mundo</p>
-              </div>
-            ),
-          })
-        }}
+        onClick={handleCreateEvent}
       />
     </div>
   )

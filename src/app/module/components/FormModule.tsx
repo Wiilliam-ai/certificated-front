@@ -1,30 +1,19 @@
 import { useState } from 'react'
-
-const tyesModules = [
-  {
-    id: 0,
-    name: 'Seleccionar',
-  },
-  {
-    id: 1,
-    name: 'Curso',
-  },
-  {
-    id: 2,
-    name: 'Taller',
-  },
-  {
-    id: 3,
-    name: 'Webinar',
-  },
-]
+import { tyesModules } from '../helpers/typesModules'
+import { Button } from '../../../components/ui/Button'
+import { ModuleModel } from '../../../models/ModuleModel'
+import { ApiFetch } from '../../../plugins/http/api-fetch'
+import { useModuleStore } from '../../../stores/modules/useModuleStore'
+import { useModal } from '../../../components/custom/modal/hooks/useModal'
 
 interface IModuleState {
+  id: string
   type: number
   name: string
 }
 
 const INITIAL_STATE: IModuleState = {
+  id: '',
   type: 0,
   name: '',
 }
@@ -33,14 +22,45 @@ interface Props {
   module?: IModuleState
 }
 
-export const FormModule = ({ module }: Props) => {
-  const [state, setState] = useState<IModuleState>(module || INITIAL_STATE)
+const apiFetch = new ApiFetch()
+const moduleModel = new ModuleModel(apiFetch)
 
+export const FormModule = ({ module }: Props) => {
+  const { closeModal } = useModal()
+  const [state, setState] = useState<IModuleState>(module || INITIAL_STATE)
+  const { addModule, updateModule } = useModuleStore((state) => state)
   const { name, type } = state
+  const formIsCreate = state.id === ''
+  const txtButton = formIsCreate ? 'Guardar' : 'Editar'
+
+  const handleAddModule = async () => {
+    const result = await moduleModel.saveModule({
+      name,
+      type,
+    })
+    addModule(result)
+  }
+
+  const handleEditModule = async () => {
+    const result = await moduleModel.updateModule(state)
+    updateModule(result)
+  }
+
+  const handleSubmmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if (formIsCreate) {
+      handleAddModule()
+    } else {
+      handleEditModule()
+    }
+
+    closeModal()
+  }
 
   return (
     <div>
-      <form>
+      <form className="flex flex-col gap-3" onSubmit={handleSubmmit}>
         <div>
           <label htmlFor="">Tipo de Modulo</label>
           <select
@@ -76,6 +96,14 @@ export const FormModule = ({ module }: Props) => {
                 name: value,
               })
             }}
+          />
+        </div>
+        <div>
+          <Button
+            variant="primay"
+            type="submit"
+            label={txtButton}
+            onClick={() => {}}
           />
         </div>
       </form>
