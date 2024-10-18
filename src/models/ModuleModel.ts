@@ -9,8 +9,11 @@ export class ModuleModel {
     return result
   }
 
-  async saveModule(module: Omit<Module, 'id'>) {
-    const result = await this.http.post<Module>('/modules', module)
+  async saveModule(module: Module) {
+    const result = await this.http.post<Module>('/modules', {
+      name: module.name,
+      type: module.type,
+    })
     return result
   }
 

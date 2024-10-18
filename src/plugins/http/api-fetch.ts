@@ -11,134 +11,68 @@ export class ApiFetch implements HttpAdapter {
   private static API_URL = 'http://localhost:3000'
   private maxToastError = 2
   private countToastError = 0
+  private statusError: number = 0
 
-  async get<T>(url: string): Promise<T> {
+  private async request<T>(url: string, options: RequestInit): Promise<T> {
     let resultData: T
     try {
-      const response = await fetch(`${ApiFetch.API_URL}${url}`)
+      const response = await fetch(`${ApiFetch.API_URL}${url}`, options)
       const result: T = await response.json()
+
       if (!response.ok) {
-        throw new CustomError('Error custom')
+        const existResult = result !== undefined
+        if (existResult) {
+          this.statusError = response.status
+          throw new CustomError('Custom error')
+        }
       }
-      resultData = result
+
+      // Reiniciar contador de errores si la petición es exitosa
       this.countToastError = 0
+      resultData = result
     } catch (error) {
-      if (error instanceof CustomError) {
-        console.log('Error custom')
-        throw error
-      }
-      // toast.error('Error en la petición')
-
-      if (this.countToastError < this.maxToastError) {
-        toast.error('Error en la petición')
-        this.countToastError++
-      }
-
+      this.handleError(error)
       throw new Error('Error en la petición')
     }
+
     return resultData
+  }
+
+  private handleError(error: unknown): void {
+    if (error instanceof CustomError) {
+      console.log(
+        `Implementar los toast de error para el status ${this.statusError}`,
+      )
+    }
+
+    // Mostrar error solo si no se ha alcanzado el límite
+    if (this.countToastError < this.maxToastError) {
+      toast.error('Error en la petición')
+      this.countToastError++
+    }
+  }
+
+  async get<T>(url: string): Promise<T> {
+    return this.request<T>(url, { method: 'GET' })
   }
 
   async post<T>(url: string, body: Record<string, unknown>): Promise<T> {
-    let resultData: T
-
-    try {
-      const response = await fetch(`${ApiFetch.API_URL}${url}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      })
-      const result: T = await response.json()
-
-      if (!response.ok) {
-        throw new CustomError('Error custom')
-      }
-      resultData = result
-      this.countToastError = 0
-    } catch (error) {
-      if (error instanceof CustomError) {
-        console.log('Error custom')
-        throw error
-      }
-
-      if (this.countToastError < this.maxToastError) {
-        toast.error('Error en la petición')
-        this.countToastError++
-      }
-
-      throw new Error('Error en la petición')
-    }
-
-    return resultData
+    return this.request<T>(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
   }
 
   async delete<T>(url: string): Promise<T> {
-    let resultData: T
-
-    try {
-      const response = await fetch(`${ApiFetch.API_URL}${url}`, {
-        method: 'DELETE',
-      })
-      const result: T = await response.json()
-
-      if (!response.ok) {
-        throw new CustomError('Error custom')
-      }
-
-      resultData = result
-      this.countToastError = 0
-    } catch (error) {
-      if (error instanceof CustomError) {
-        console.log('Error custom')
-        throw error
-      }
-
-      if (this.countToastError < this.maxToastError) {
-        toast.error('Error en la petición')
-        this.countToastError++
-      }
-
-      throw new Error('Error en la petición')
-    }
-
-    return resultData
+    return this.request<T>(url, { method: 'DELETE' })
   }
 
   async patch<T>(url: string, body: Record<string, unknown>): Promise<T> {
-    let resultData: T
-
-    try {
-      const response = await fetch(`${ApiFetch.API_URL}${url}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      })
-      const result: T = await response.json()
-
-      if (!response.ok) {
-        throw new CustomError('Error custom')
-      }
-
-      resultData = result
-      this.countToastError = 0
-    } catch (error) {
-      if (error instanceof CustomError) {
-        console.log('Error custom')
-        throw error
-      }
-
-      if (this.countToastError < this.maxToastError) {
-        toast.error('Error en la petición')
-        this.countToastError++
-      }
-
-      throw new Error('Error en la petición')
-    }
-
-    return resultData
+    return this.request<T>(url, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
   }
 }
