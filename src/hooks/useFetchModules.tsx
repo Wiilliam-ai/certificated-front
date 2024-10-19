@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { Module, useModuleStore } from '../stores/modules/useModuleStore'
+import { Module } from '../stores/modules/useModuleStore'
 import { ApiFetch } from '../plugins/http/api-fetch'
 import { ModuleModel } from '../models/ModuleModel'
 
@@ -8,16 +8,13 @@ const moduleModel = new ModuleModel(apiFetch)
 
 export const useFetchModules = () => {
   const queryClient = useQueryClient()
-
-  const { loadModules, modules } = useModuleStore((state) => state)
-  // React Query: Fetching modules with caching
-  const { isLoading } = useQuery({
+  const {
+    data: modules,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['modules'],
-    queryFn: async () => {
-      const listModules = await moduleModel.loadModules()
-      loadModules(listModules)
-      return listModules
-    },
+    queryFn: () => moduleModel.loadModules(),
     staleTime: 1000 * 60 * 60, // 1 hour
   })
 
@@ -44,11 +41,13 @@ export const useFetchModules = () => {
 
   const createModule = (module: Module) => createModuleMutation.mutate(module)
   const modifyModule = (module: Module) => modifyModuleMutation.mutate(module)
+
   const deleteModule = (module: Module) => deleteModuleMutation.mutate(module)
 
   return {
     modules,
     isLoading,
+    isError,
     createModule,
     modifyModule,
     deleteModule,
