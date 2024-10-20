@@ -14,7 +14,7 @@ export const NotFoundView = () => {
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <Link href="/">
-            <Button variant="primay" label="Go back" onClick={() => {}} />
+            <Button variant="primary" label="Go back" onClick={() => {}} />
           </Link>
           <a href="#" className="text-sm font-semibold text-gray-900">
             Contact support <span aria-hidden="true">&rarr;</span>

@@ -1,3 +1,4 @@
+import { Button } from '../../../components/ui/Button'
 import { CardItem } from './CardItem'
 
 export const SectionCourses = () => {
@@ -20,10 +21,12 @@ export const SectionCourses = () => {
           description="Aprende React desde cero"
         />
       </div>
-
-      <button className="bg-sky-700 text-white py-1 px-3 rounded-md block mx-auto my-2 transition-all hover:bg-sky-950 hover:shadow-md">
-        Ver todos los cursos
-      </button>
+      <Button
+        className="mx-auto mt-4"
+        label="Ver todos los cursos"
+        variant="primary"
+        onClick={() => {}}
+      />
     </section>
   )
 }

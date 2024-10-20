@@ -9,7 +9,7 @@ class CustomError extends Error {
 
 export class ApiFetch implements HttpAdapter {
   private static API_URL = 'http://localhost:3000'
-  private maxToastError = 2
+  private maxToastError = 4
   private countToastError = 0
   private statusError: number = 0
 
@@ -45,10 +45,10 @@ export class ApiFetch implements HttpAdapter {
       )
     }
 
-    // Mostrar error solo si no se ha alcanzado el límite
-    if (this.countToastError < this.maxToastError) {
-      toast.error('Error en la petición')
-      this.countToastError++
+    this.countToastError++
+    if (this.countToastError === this.maxToastError) {
+      toast.error('Error de conexión')
+      this.countToastError = 0
     }
   }
 

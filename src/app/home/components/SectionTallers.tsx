@@ -1,6 +1,14 @@
+import { useLocation } from 'wouter'
+import { Button } from '../../../components/ui/Button'
 import { CardItem } from './CardItem'
 
 export const SectionTallers = () => {
+  const [, navigate] = useLocation()
+
+  const handleNavigate = () => {
+    navigate('/event')
+  }
+
   return (
     <section>
       <h1 className="title-section">Talleres</h1>
@@ -23,9 +31,12 @@ export const SectionTallers = () => {
           description="Aprende a tocar piano con los mejores profesionales"
         />
       </div>
-      <button className="bg-sky-700 text-white py-1 px-3 rounded-md block mx-auto my-2 transition-all hover:bg-sky-950 hover:shadow-md">
-        Ver todos los talleres
-      </button>
+      <Button
+        className="block mx-auto my-2"
+        label="Ver todos los talleres"
+        variant="primary"
+        onClick={handleNavigate}
+      />
     </section>
   )
 }

@@ -42,7 +42,7 @@ export const ModuleView = () => {
         </section>
 
         <Button
-          variant="primay"
+          variant="primary"
           label="Agregar Modulo"
           icon="plus"
           onClick={() => {
@@ -78,7 +78,7 @@ export const ModuleView = () => {
                     </div>
                     <div className="flex gap-2">
                       <IconButton
-                        variant="primay"
+                        variant="primary"
                         icon="edit"
                         label="edit"
                         size="sm"
