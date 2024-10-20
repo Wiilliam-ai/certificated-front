@@ -51,7 +51,7 @@ export default tseslint.config({
 
 ## Probar la aplicación
 
-- Instalar dependencias: `npm install`
+- Instalar dependencias: `pnpm install`
 - Instalar json-server: `npm install -g json-server`
 - Agregar un archivo `db.json` en la raíz del proyecto con la siguiente estructura:
 
@@ -91,4 +91,4 @@ export default tseslint.config({
 ```
 
 - Iniciar el json-server: `npx json-server --watch db.json`
-- Iniciar la aplicación: `npm run dev`
+- Iniciar la aplicación: `pnpm run dev`
