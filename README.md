@@ -90,5 +90,5 @@ export default tseslint.config({
 }
 ```
 
-- Iniciar el json-server: `json-server --watch db.json`
+- Iniciar el json-server: `npx json-server --watch db.json`
 - Iniciar la aplicación: `npm run dev`
