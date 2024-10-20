@@ -24,6 +24,8 @@ interface Props {
 
 export const Layout = ({ children }: Props) => {
   const pathname = usePathname()
+
+  console.log({ pathname })
   return (
     <ModalProvider>
       <nav className="shadow-md h-20 bg-white sticky top-0 left-0">

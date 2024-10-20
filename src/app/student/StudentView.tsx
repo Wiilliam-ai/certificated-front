@@ -30,7 +30,7 @@ export const StudentView = () => {
         </section>
 
         <Button
-          variant="primay"
+          variant="primary"
           label="Agregar Estudiante"
           icon="plus"
           onClick={() => {

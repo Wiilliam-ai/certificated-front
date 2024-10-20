@@ -103,7 +103,7 @@ export const FormModule = ({ module }: Props) => {
         </div>
         <div>
           <Button
-            variant="primay"
+            variant="primary"
             type="submit"
             label={txtButton}
             onClick={() => {}}

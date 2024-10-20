@@ -20,7 +20,7 @@ export const EventView = () => {
       </section>
 
       <Button
-        variant="primay"
+        variant="primary"
         label="Agregar Evento"
         icon="plus"
         onClick={handleCreateEvent}

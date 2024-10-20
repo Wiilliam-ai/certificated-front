@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { EditIcon, PlusIcon, TrashIcon } from 'lucide-react'
 
 const configButton = {
-  primay: 'bg-sky-700 text-white py-1 px-3 rounded-md',
+  primary: 'bg-sky-700 text-white py-1 px-3 rounded-md',
   secondary: 'bg-gray-700 flex text-white py-1 px-3 rounded-md',
   destroy: 'bg-red-700 text-white py-1 px-3 rounded-md',
 }
@@ -33,7 +33,7 @@ export const Button = ({
   icon,
   className,
 }: Props) => {
-  const buttonClass = configButton[variant] || configButton.primay
+  const buttonClass = configButton[variant] || configButton.primary
 
   const existIcon = icon !== undefined ? iconButton[icon] : null
 
