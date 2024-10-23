@@ -1,10 +1,13 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { IAvatar, IRole } from '../../interfaces/auth.interface'
 
 export type User = {
   id: string
   name: string
   email: string
+  avatar: IAvatar
+  role?: IRole
 }
 
 export type AuthStore = {
@@ -13,6 +16,7 @@ export type AuthStore = {
   user?: User
   loginAuth: (user: User, token: string) => void
   logoutAuth: () => void
+  verifyAuth: (user: User) => void
 }
 
 export const useAuthStore = create(
@@ -24,6 +28,9 @@ export const useAuthStore = create(
       },
       logoutAuth: () => {
         set(() => ({ auth: false, user: undefined, token: undefined }))
+      },
+      verifyAuth: (user) => {
+        set(() => ({ auth: true, user }))
       },
     }),
     { name: 'auth' },

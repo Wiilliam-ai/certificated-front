@@ -1,18 +1,18 @@
 import { useState } from 'react'
-import { tyesModules } from '../helpers/typesModules'
+import { typesModules } from '../helpers/typesModules'
 import { Button } from '../../../components/ui/Button'
 import { useModal } from '../../../components/custom/modal/hooks/useModal'
 import { useFetchModules } from '../../../hooks/useFetchModules'
 
 interface IModuleState {
   id: string
-  type: number
+  typeModuleId: number
   name: string
 }
 
 const INITIAL_STATE: IModuleState = {
   id: '',
-  type: 0,
+  typeModuleId: 0,
   name: '',
 }
 
@@ -24,7 +24,7 @@ export const FormModule = ({ module }: Props) => {
   const { closeModal } = useModal()
   const { modifyModule, createModule } = useFetchModules()
   const [state, setState] = useState<IModuleState>(module || INITIAL_STATE)
-  const { name, type } = state
+  const { name, typeModuleId: type } = state
   const formIsCreate = state.id === ''
   const txtButton = formIsCreate ? 'Guardar' : 'Editar'
 
@@ -38,6 +38,10 @@ export const FormModule = ({ module }: Props) => {
 
   const handleSubmmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    if (type === 0) {
+      return
+    }
 
     if (formIsCreate) {
       const values = [name, type].includes('')
@@ -72,11 +76,11 @@ export const FormModule = ({ module }: Props) => {
               const value = Number(e.target.value)
               setState({
                 ...state,
-                type: value,
+                typeModuleId: value,
               })
             }}
           >
-            {tyesModules.map((type) => (
+            {typesModules.map((type) => (
               <option key={type.id} value={type.id}>
                 {type.name}
               </option>

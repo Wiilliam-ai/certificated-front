@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useFetchModules } from '../../../hooks/useFetchModules'
-import { tyesModules } from '../../module/helpers/typesModules'
+import { typesModules } from '../../module/helpers/typesModules'
 
 export const FormEvent = () => {
   const { modules } = useFetchModules()
@@ -23,7 +23,7 @@ export const FormEvent = () => {
             value={selectType}
             onChange={(e) => setSelectType(Number(e.target.value))}
           >
-            {tyesModules.map((type) => (
+            {typesModules.map((type) => (
               <option key={type.id} value={type.id}>
                 {type.name}
               </option>

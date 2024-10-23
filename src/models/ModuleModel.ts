@@ -6,13 +6,13 @@ export class ModuleModel {
 
   async loadModules() {
     const result = await this.http.get<Module[]>('/modules')
-    return result
+    return result.data
   }
 
   async saveModule(module: Module) {
     const result = await this.http.post<Module>('/modules', {
       name: module.name,
-      type: module.type,
+      typeModuleId: module.typeModuleId,
     })
     return result
   }
@@ -20,7 +20,7 @@ export class ModuleModel {
   async updateModule(module: Module) {
     const result = await this.http.patch<Module>(`/modules/${module.id}`, {
       name: module.name,
-      type: module.type,
+      typeModuleId: module.typeModuleId,
     })
     return result
   }

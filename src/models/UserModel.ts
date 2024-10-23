@@ -1,5 +1,7 @@
+import { toast } from 'react-toastify'
 import { IResponseAuth } from '../interfaces/auth.interface'
 import { HttpAdapter } from '../plugins/http/http-adapter'
+import { CustomError } from '../plugins/http/api-fetch'
 
 export interface User {
   id: string
@@ -12,11 +14,30 @@ export class UserModel {
   constructor(private readonly http: HttpAdapter) {}
 
   async login(user: Omit<User, 'id' | 'name'>) {
-    const result = await this.http.post<IResponseAuth>('/auth/login', {
-      email: user.email,
-      password: user.password,
-    })
-    return result
+    try {
+      const result = await this.http.post<IResponseAuth>('/auth/login', {
+        email: user.email,
+        password: user.password,
+      })
+      return result
+    } catch (error) {
+      if (error instanceof CustomError) {
+        toast.error(error.message)
+      }
+    }
+  }
+
+  async verifyAuth({ logout }: { logout: () => void }) {
+    try {
+      const result =
+        await this.http.post<Omit<IResponseAuth, 'token'>>('/auth/verify')
+      return result
+    } catch (error) {
+      if (error instanceof CustomError) {
+        toast.error(error.message)
+      }
+      logout()
+    }
   }
 
   async register(user: User) {

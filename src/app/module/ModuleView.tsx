@@ -71,7 +71,8 @@ export const ModuleView = () => {
                         {module.name}
                       </h1>
                       <p>
-                        <strong>Tipo:</strong> {getTypeModule(module.type)}
+                        <strong>Tipo:</strong>{' '}
+                        {getTypeModule(module.typeModuleId)}
                       </p>
                     </div>
                     <div className="flex gap-2">

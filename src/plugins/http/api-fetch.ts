@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify'
-import { HttpAdapter } from './http-adapter'
+import { HttpAdapter, IResponse } from './http-adapter'
 
-class CustomError extends Error {
+export class CustomError extends Error {
   constructor(message: string) {
     super(message)
   }
@@ -19,17 +19,20 @@ export class ApiFetch implements HttpAdapter {
     this.token = token
   }
 
-  private async request<T>(url: string, options: RequestInit): Promise<T> {
-    let resultData: T
+  private async request<T>(
+    url: string,
+    options: RequestInit,
+  ): Promise<IResponse<T>> {
+    let resultData: IResponse<T>
     try {
       const response = await fetch(`${ApiFetch.API_URL}${url}`, options)
-      const result: T = await response.json()
+      const result: IResponse<T> = await response.json()
 
       if (!response.ok) {
         const existResult = result !== undefined
         if (existResult) {
           this.statusError = response.status
-          throw new CustomError('Custom error')
+          throw new CustomError(result.message)
         }
       }
 
@@ -59,11 +62,20 @@ export class ApiFetch implements HttpAdapter {
     }
   }
 
-  async get<T>(url: string): Promise<T> {
-    return this.request<T>(url, { method: 'GET' })
+  async get<T>(url: string): Promise<IResponse<T>> {
+    return this.request<T>(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(this.token && { Authorization: `Bearer ${this.token}` }),
+      },
+    })
   }
 
-  async post<T>(url: string, body?: Record<string, unknown>): Promise<T> {
+  async post<T>(
+    url: string,
+    body?: Record<string, unknown>,
+  ): Promise<IResponse<T>> {
     return this.request<T>(url, {
       method: 'POST',
       headers: {
@@ -74,7 +86,7 @@ export class ApiFetch implements HttpAdapter {
     })
   }
 
-  async delete<T>(url: string): Promise<T> {
+  async delete<T>(url: string): Promise<IResponse<T>> {
     return this.request<T>(url, {
       method: 'DELETE',
       headers: {
@@ -84,7 +96,10 @@ export class ApiFetch implements HttpAdapter {
     })
   }
 
-  async patch<T>(url: string, body?: Record<string, unknown>): Promise<T> {
+  async patch<T>(
+    url: string,
+    body?: Record<string, unknown>,
+  ): Promise<IResponse<T>> {
     return this.request<T>(url, {
       method: 'PATCH',
       headers: {

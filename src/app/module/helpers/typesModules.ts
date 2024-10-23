@@ -1,4 +1,4 @@
-export const tyesModules = [
+export const typesModules = [
   {
     id: 0,
     name: 'Seleccionar',

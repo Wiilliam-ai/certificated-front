@@ -4,6 +4,7 @@ import { useAuthStore } from '../../stores/auth/useAuthStore'
 import { UserModel } from '../../models'
 import { ApiFetch } from '../../plugins/http/api-fetch'
 import { toast } from 'react-toastify'
+import { useLocation } from 'wouter'
 
 export const LoginView = () => {
   const { loginAuth } = useAuthStore((state) => state)
@@ -13,6 +14,7 @@ export const LoginView = () => {
   })
 
   const { email, password } = state
+  const [, navigate] = useLocation()
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [e.target.name]: e.target.value })
@@ -34,18 +36,11 @@ export const LoginView = () => {
       password,
     })
 
-    if (result) {
+    if (result && result.data) {
       toast.success(result.message)
       const { data } = result
-
-      loginAuth(
-        {
-          id: data.user.id,
-          email: data.user.email,
-          name: data.user.name,
-        },
-        data.token,
-      )
+      loginAuth(data?.user, data?.token)
+      navigate('/')
     }
   }
 

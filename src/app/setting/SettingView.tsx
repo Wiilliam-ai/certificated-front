@@ -8,6 +8,8 @@ import {
   TrainFrontIcon,
   LucideProps,
 } from 'lucide-react'
+import { AccountSection } from './account-section/AccountSection'
+import { ProfileSection } from './components/ProfileSection'
 
 export type Section =
   | 'profile-section'
@@ -91,12 +93,8 @@ export const SettingView = () => {
             />
           </aside>
           <div className="w-full h-max py-2">
-            {settinSelected.section === 'profile-section' && (
-              <p className="animate-fadeIn bg-white p-3">Perfil section</p>
-            )}
-            {settinSelected.section === 'account-section' && (
-              <p className="animate-fadeIn bg-white p-3">Cuentas section</p>
-            )}
+            {settinSelected.section === 'profile-section' && <ProfileSection />}
+            {settinSelected.section === 'account-section' && <AccountSection />}
             {settinSelected.section === 'notifications-section' && (
               <p className="animate-fadeIn bg-white p-3">
                 Notificaciones section

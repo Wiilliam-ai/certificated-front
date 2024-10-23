@@ -8,7 +8,7 @@ export type CacheModule = {
 export type Module = {
   id: string
   name: string
-  type: number
+  typeModuleId: number
 }
 
 type ModuleStore = {
