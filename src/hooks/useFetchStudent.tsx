@@ -1,26 +1,25 @@
 import { useQuery } from '@tanstack/react-query'
 import { ApiFetch } from '../plugins/http/api-fetch'
-import { useEffect } from 'react'
 import { StudentModel } from '../models/StudentModel'
 import { useStudentStore } from '../stores/students/useStudentStore'
+import { useAuthStore } from '../stores/auth/useAuthStore'
 
 export const useFetchStudent = () => {
-  const apiFetch = new ApiFetch()
+  const token = useAuthStore((state) => state.token)
+  const apiFetch = new ApiFetch({ token: token || '' })
   const moduleModel = new StudentModel(apiFetch)
 
   const { students, loadStudents } = useStudentStore((state) => state)
 
-  const { data, isLoading, isError } = useQuery({
+  const { isLoading, isError } = useQuery({
     queryKey: ['students'],
     staleTime: 1000 * 60 * 5,
-    queryFn: () => moduleModel.loadStudents(),
+    queryFn: async () => {
+      const results = await moduleModel.loadStudents()
+      loadStudents(results)
+      return results
+    },
   })
-
-  useEffect(() => {
-    if (data) {
-      loadStudents(data)
-    }
-  }, [data, loadStudents])
 
   return { students, isLoading, isError }
 }

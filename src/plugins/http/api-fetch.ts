@@ -8,10 +8,16 @@ class CustomError extends Error {
 }
 
 export class ApiFetch implements HttpAdapter {
-  private static API_URL = 'http://localhost:3000'
+  private static API_URL = 'http://localhost:3000/api'
   private maxToastError = 4
   private countToastError = 0
   private statusError: number = 0
+
+  private readonly token: string
+
+  constructor({ token }: { token: string }) {
+    this.token = token
+  }
 
   private async request<T>(url: string, options: RequestInit): Promise<T> {
     let resultData: T
@@ -32,7 +38,8 @@ export class ApiFetch implements HttpAdapter {
       resultData = result
     } catch (error) {
       this.handleError(error)
-      throw new Error('Error en la petición')
+
+      throw error
     }
 
     return resultData
@@ -56,22 +63,34 @@ export class ApiFetch implements HttpAdapter {
     return this.request<T>(url, { method: 'GET' })
   }
 
-  async post<T>(url: string, body: Record<string, unknown>): Promise<T> {
+  async post<T>(url: string, body?: Record<string, unknown>): Promise<T> {
     return this.request<T>(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...(this.token && { Authorization: `Bearer ${this.token}` }),
+      },
       body: JSON.stringify(body),
     })
   }
 
   async delete<T>(url: string): Promise<T> {
-    return this.request<T>(url, { method: 'DELETE' })
+    return this.request<T>(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(this.token && { Authorization: `Bearer ${this.token}` }),
+      },
+    })
   }
 
-  async patch<T>(url: string, body: Record<string, unknown>): Promise<T> {
+  async patch<T>(url: string, body?: Record<string, unknown>): Promise<T> {
     return this.request<T>(url, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...(this.token && { Authorization: `Bearer ${this.token}` }),
+      },
       body: JSON.stringify(body),
     })
   }

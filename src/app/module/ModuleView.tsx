@@ -1,11 +1,9 @@
-import { Button } from '../../components/ui/Button'
-import { useModal } from '../../components/custom/modal/hooks/useModal'
-import { FormModule } from './components/FormModule'
-import { Module } from '../../stores/modules/useModuleStore'
-import { getTypeModule } from './helpers/getTypeModule'
-import { IconButton } from '../../components/ui/IconButton'
+import { Button, IconButton, useModal } from '../../components'
 import { useFetchModules } from '../../hooks/useFetchModules'
+import { Module } from '../../stores/modules/useModuleStore'
+import { FormModule } from './components/FormModule'
 import { ModuleSkeleton } from './components/ModuleSkeleton'
+import { getTypeModule } from './helpers/getTypeModule'
 
 export const ModuleView = () => {
   const { openModal } = useModal()

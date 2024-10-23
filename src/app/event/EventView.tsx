@@ -1,5 +1,4 @@
-import { useModal } from '../../components/custom/modal/hooks/useModal'
-import { Button } from '../../components/ui/Button'
+import { Button, IconButton, useModal } from '../../components'
 import { FormEvent } from './components/FormEvent'
 
 export const EventView = () => {
@@ -8,8 +7,16 @@ export const EventView = () => {
   const handleCreateEvent = () => {
     openModal({
       title: 'Agregar Evento',
-      widthDimension: 50,
+      widthDimension: 35,
       component: <FormEvent />,
+    })
+  }
+
+  const handleEditEvent = () => {
+    openModal({
+      title: 'Editar Evento',
+      widthDimension: 20,
+      component: <> Hola </>,
     })
   }
 
@@ -24,6 +31,14 @@ export const EventView = () => {
         label="Agregar Evento"
         icon="plus"
         onClick={handleCreateEvent}
+      />
+
+      <IconButton
+        icon="edit"
+        variant="destroy"
+        size="md"
+        label="Editar"
+        onClick={handleEditEvent}
       />
     </div>
   )

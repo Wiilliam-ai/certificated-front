@@ -1,13 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Module } from '../stores/modules/useModuleStore'
 import { ApiFetch } from '../plugins/http/api-fetch'
-import { ModuleModel } from '../models/ModuleModel'
-
-const apiFetch = new ApiFetch()
-const moduleModel = new ModuleModel(apiFetch)
+import { useAuthStore } from '../stores/auth/useAuthStore'
+import { ModuleModel } from '../models'
 
 export const useFetchModules = () => {
+  const token = useAuthStore((state) => state.token)
+  const apiFetch = new ApiFetch({ token: token || '' })
+  const moduleModel = new ModuleModel(apiFetch)
   const queryClient = useQueryClient()
+
   const {
     data: modules,
     isLoading,
@@ -41,7 +43,6 @@ export const useFetchModules = () => {
 
   const createModule = (module: Module) => createModuleMutation.mutate(module)
   const modifyModule = (module: Module) => modifyModuleMutation.mutate(module)
-
   const deleteModule = (module: Module) => deleteModuleMutation.mutate(module)
 
   return {

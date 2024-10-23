@@ -25,6 +25,10 @@ export default {
         '50%': { opacity: 0.5 },
         '100%': { opacity: 1 },
       },
+      resize: {
+        '0%': { transform: 'scale(0.95)', opacity: 0.5 },
+        '100%': { transform: 'scale(1)', opacity: 1 },
+      },
     },
     animation: {
       fadeIn: 'fadeIn 0.2s ease-in-out',
@@ -32,6 +36,7 @@ export default {
       fadeInUp: 'fadeInUp 0.3s ease-in-out',
       fadeInDown: 'fadeInDown 0.3s ease-in-out',
       pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;',
+      resize: 'resize 0.3s ease-in-out',
     },
   },
   plugins: [],
